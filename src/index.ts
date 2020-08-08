@@ -1,21 +1,21 @@
-import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+import * as express from "express";
+import { createConnection } from "typeorm";
 
-createConnection().then(async connection => {
+createConnection()
+  .then(() => {
+    // create express app
+    const app = express();
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
 
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+    // register express routes
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
+    // setup express app here
+    // ...
 
-    console.log("Here you can setup and run express/koa/any other framework.");
+    // start express server
+    app.listen(8000);
 
-}).catch(error => console.log(error));
+    console.log("Express server has started.");
+  })
+  .catch((error) => console.log(error));
